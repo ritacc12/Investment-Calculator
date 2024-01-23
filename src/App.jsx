@@ -1,5 +1,6 @@
 import Header from "./components/Header";
 import UserInput from "./components/UserInput";
+import Results from "./components/Results";
 import { useState } from "react";
 
 function App() {
@@ -10,12 +11,15 @@ function App() {
     duration: 10,
   });
 
+  const inputIsvaild = userInput.duration >= 1;
+
   function handleChange(inputIdentifier, newValue) {
     setUserInput((preUserInput) => {
       return {
         ...preUserInput,
         //store the value into inputIdentifier
-        [inputIdentifier]: newValue,
+        // Since in input field , always get value be a string, add '+' to transform the string to number
+        [inputIdentifier]: +newValue,
       };
     });
   }
@@ -24,6 +28,11 @@ function App() {
     <>
       <Header />
       <UserInput userInput={userInput} onChangeInput={handleChange} />
+      {inputIsvaild ? (
+        <Results Input={userInput} />
+      ) : (
+        <p className="center">Please enter a duration greater than zero </p>
+      )}
     </>
   );
 }
